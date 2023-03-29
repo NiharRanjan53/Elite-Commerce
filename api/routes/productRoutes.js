@@ -4,7 +4,13 @@ import {
   deleteProductController,
   getProductController,
   getSingleProductController,
+  productCategoryController,
+  productCountController,
+  productFiltersController,
+  productListConntroller,
   productPhotoController,
+  relatedProductController,
+  searchProductController,
   updateProductController,
 } from "../controllers/productController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
@@ -23,6 +29,15 @@ router.post(
   createProductController
 );
 
+// Update Product
+router.put(
+  "/update-product/:pid",
+  requireSignIn,
+  isAdmin,
+  formidable(),
+  updateProductController
+);
+
 // get Products
 router.get("/get-product", getProductController);
 
@@ -33,15 +48,24 @@ router.get("/get-product/:slug", getSingleProductController);
 router.get("/product-photo/:pid", productPhotoController);
 
 // Delete Product
-router.delete("/product/:pid", deleteProductController); // not tested
+router.delete("/delete-product/:pid", deleteProductController); // not tested
 
-// Update Product
-router.put(
-  "/update-product/:pid",
-  requireSignIn,
-  isAdmin,
-  formidable(),
-  updateProductController
-);
+// filter product
+router.post("/product-filters", productFiltersController);
+
+// Product Count
+router.get("/product-count", productCountController);
+
+//Product Per Page
+router.get("/product-list/:page", productListConntroller);
+
+// Search Product
+router.get("/search/:keyword", searchProductController);
+
+// Similar Products
+router.get("/related-product/:pid/:cid", relatedProductController);
+
+// Category wise product
+router.get("/product-category/:slug", productCategoryController);
 
 export default router;
