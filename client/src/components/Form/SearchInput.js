@@ -21,7 +21,7 @@ const SearchInput = () => {
 
   return (
     <div>
-      <form className="d-flex" onSubmit={handleSubmit}>
+      <form className="d-flex justify-content-between" onSubmit={handleSubmit}>
         <input
           className="form-control me-2"
           type="search"

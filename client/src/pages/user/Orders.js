@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import UserMenu from "../../components/Layout/UserMenu";
+import axios from "axios";
+import { useAuth } from "../../context/auth";
 
 const Orders = () => {
+  const [orders, setOrders] = useState([]);
+  const [auth, setAuth] = useAuth();
+  const getOrders = async () => {
+    try {
+      const { data } = await axios.get("/api/v1/auth/orders");
+      setOrders(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (auth?.token) getOrders();
+  }, [auth?.token]);
   return (
     <Layout title={"Your Orders"}>
       <div className="container-fluid m-3">
@@ -10,8 +26,58 @@ const Orders = () => {
           <div className="col-md-3">
             <UserMenu />
           </div>
-          <div className="col-md-9">
-            <h1>All Orders</h1>
+          <div className="col-md-9 ps-1 pe-5">
+            <h1 className="text-center">All Orders</h1>
+            {/*<p>{JSON.stringify(orders, null, 4)}</p>*/}
+            {orders?.map((o, i) => {
+              return (
+                <div className="border shadow ">
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Buyer</th>
+                        <th scope="col">Order Date</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{i + 1}</td>
+                        <td>{o?.status}</td>
+                        <td>{o?.buyer?.name}</td>
+                        <td>{o?.createdAt}</td>
+                        <td>{o?.payment.success ? "Success" : "Failed"}</td>
+                        <td>{o?.products?.length}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="container">
+                    {o?.products.map((p) => (
+                      <div
+                        className="row mt-2 mb-4 p-2 card flex-row"
+                        key={p._id}
+                      >
+                        <div className="col-md-4">
+                          <img
+                            src={`/api/v1/product/product-photo/${p._id}`}
+                            className="card-img-top"
+                            alt={p.name}
+                          />
+                        </div>
+                        <div className="col-md-8">
+                          <h4>{p.name}</h4>
+                          <p>{p.description}</p>
+                          <h5>₹ {p.price}</h5>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
