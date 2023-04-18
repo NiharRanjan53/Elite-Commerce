@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import { toast } from "react-hot-toast";
@@ -19,9 +19,17 @@ const Header = () => {
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
   };
+
+  //For fix navbar in top
+
   return (
     <>
-      <nav className="navbar navbar-dark bg-dark navbar-expand-lg">
+      <nav
+        className="navbar navbar-dark bg-dark navbar-expand-lg sticky-top"
+        style={{
+          height: "8vh",
+        }}
+      >
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -40,7 +48,7 @@ const Header = () => {
           >
             <div>
               <Link to="/" className="navbar-brand">
-                🛍️ Ecommerce App
+                🛍️Luminary Mart
               </Link>
             </div>
             <div>

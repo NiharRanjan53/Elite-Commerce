@@ -213,13 +213,13 @@ const HomePage = () => {
               {products?.map((p) => (
                 <div
                   className="card bg-light ms-2  me-2 mb-3"
-                  style={{ width: "17rem" }}
+                  style={{ width: "14.5rem" }}
                   key={p._id}
                 >
                   <img
                     src={`/api/v1/product/product-photo/${p._id}`}
                     className="card-img-top"
-                    style={{ height: "320px" }}
+                    style={{ height: "320px", width: "259px" }}
                     alt={p.name}
                   />
                   <div className="card-body">
@@ -227,15 +227,15 @@ const HomePage = () => {
                     <p className="card-text">
                       {p.description.substring(0, 30)} ...
                     </p>
-                    <p className="card-text">₹ {p.price}</p>
+                    <p className="card-text fw-bold">₹ {p.price}</p>
                     <button
-                      className="btn btn-primary ms-1"
+                      className="btn btn-primary btn-sm"
                       onClick={() => navigate(`/product/${p.slug}`)}
                     >
                       Mode Details
                     </button>
                     <button
-                      className="btn bg-success bg-gradient text-white ms-1"
+                      className="btn bg-success bg-gradient text-white btn-sm ms-1"
                       onClick={() => {
                         setCart([...cart, p]);
                         localStorage.setItem(
